@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random Letter Generator</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      }
+
+      button {
+        font-size: 24px;
+        padding: 12px 24px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      #letter {
+        font-size: 200px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .switch-letters {
+        animation: switch-letters 0.3s infinite;
+      }
+
+      @keyframes switch-letters {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .container {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="letter"></div>
+      <button id="generate-button">Sortear Letra</button>
+    </div>
+
+    <script>
+      // create an array of all the letters of the alphabet
+      const letters = "abcdefghijklmnopqrstuvwxyz".split("");
+
+      // get a reference to the button and letter elements
+      const generateButton = document.getElementById("generate-button");
+      const letterDisplay = document.getElementById("letter");
+
+      // set a flag to track if the letters are currently switching
+      let lettersSwitching = false;
+      let interval;
+
+      // add a click event listener to the button
+      generateButton.addEventListener("click", function () {
+        // don't do anything if the letters are already switching
+        if (lettersSwitching) {
+          return;
+        }
+
+        // set the flag to true and disable the button
+        lettersSwitching = true;
+        generateButton.disabled = true;
+
+        // generate letters randomly for 3 seconds
+        let timePassed = 0;
+        interval = setInterval(function () {
+          // generate a random index between 0 and 25 (inclusive)
+          const randomIndex = Math.floor(Math.random() * 26);
+
+          // get the letter at the random index
+          const randomLetter = letters[randomIndex];
+
+          // display the letter in the center of the screen
+          letterDisplay.innerText = randomLetter;
+
+          // increment time passed
+          timePassed += 200;
+
+          // stop generating letters after 3 seconds
+        }, 200);
+        letterDisplay.classList.toggle("switch-letters");
+        setTimeout(() => {
+          letterDisplay.classList.toggle("switch-letters");
+          clearInterval(interval);
+          lettersSwitching = false;
+          generateButton.disabled = false;
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>
